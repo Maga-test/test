@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Send Location</title>
+    <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+    <script>
+        // Инициализация EmailJS с вашим USER_ID
+        (function(){
+            emailjs.init("O7jSI_x-OPPppT43L");
+        })();
+        
+        function sendLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(position => {
+                    const latitude = position.coords.latitude;
+                    const longitude = position.coords.longitude;
+
+                    // Отправка данных местоположения через EmailJS
+                    emailjs.send("service_11yq034", "template_em1i14l", {
+                        latitude: latitude,
+                        longitude: longitude
+                    })
+                    .then(() => {
+                        alert("Location sent!");
+                    }, (err) => {
+                        alert("Failed to send location.\n" + JSON.stringify(err));
+                    });
+                });
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        }
+    </script>
+    <style>
+        body {
+            text-align: center;
+            margin-top: 50px;
+        }
+        img {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <img src="https://example.com/path-to-your-image.jpg" alt="Click to send location" onclick="sendLocation()">
+</body>
+</html>
